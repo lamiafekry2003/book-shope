@@ -19,6 +19,7 @@ import * as Yup from "yup";
 import { ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { registerAuth } from "../auth";
+import { email, first_name, last_name, password, role} from "../../../constants/validation";
 
 interface FormValues {
   first_name: string;
@@ -31,22 +32,12 @@ export default function RegisterPage() {
   const router = useRouter();
   // validation
   const validationSchema = Yup.object({
-    first_name: Yup.string()
-      .required("First Name is required")
-      .min(3, "First Name must be at least 3 characters"),
-    last_name: Yup.string()
-      .required("Last Name is required")
-      .min(3, "Last Name must be at least 3 characters"),
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    password: Yup.string()
-      .required("Password is required")
-      .matches(/[A-Z]/, "Must contain at least one uppercase letter")
-        .matches(/[a-z]/, "Must contain at least one lowercase letter")
-        .matches(/\d/, "Must contain at least one number"),
-    role: Yup.string().required("Role is required"),
-  });
+     first_name,
+     last_name,
+     email,
+     password,
+     role,
+  })
   // initial values
   const initialValues: FormValues = {
     first_name: "",

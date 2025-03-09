@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import {restPass } from "../auth";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { email, otp, password } from "../../../constants/validation";
 
 interface RestPass {
   email: string;
@@ -25,16 +26,9 @@ export default function Restpage() {
   const router = useRouter();
   // validation
   const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-      otp: Yup.string()
-        .required("OTP is required"),
-    password: Yup.string()
-      .required("Password is required")
-      .matches(/[A-Z]/, "Must contain at least one uppercase letter")
-      .matches(/[a-z]/, "Must contain at least one lowercase letter")
-      .matches(/\d/, "Must contain at least one number"),
+    email,
+    password,
+    otp
   });
   // inital values
   const initialValues: RestPass = {
@@ -54,7 +48,7 @@ export default function Restpage() {
       if (response.success) {
         toast.success(response.message);
         setTimeout(() => {
-          router.push("/auth/register");
+          router.push("/auth/login");
         }, 2000);
       } else {
         toast.error(response.message);

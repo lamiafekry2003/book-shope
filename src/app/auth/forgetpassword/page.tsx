@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import { forgetPass } from "../auth";
 import { useRouter } from "next/navigation";
+import { email } from "../../../constants/validation";
 
 interface FormForget{
   email: string;
@@ -17,9 +18,7 @@ export default function ForgetpasswordPage() {
    const router = useRouter();
    // validation
      const validationSchema = Yup.object({
-       email: Yup.string()
-         .email("Invalid email address")
-         .required("Email is required"),
+       email
      });
   // inital values
   const initialValues: FormForget = {
@@ -47,7 +46,8 @@ export default function ForgetpasswordPage() {
       [router]
     );
   return (
-    <Box sx={{
+     
+      <Box sx={{
       width: "100%",
       display: "flex",
       flexDirection: "column",

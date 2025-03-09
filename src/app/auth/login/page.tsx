@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 
 import { useDispatch } from "react-redux";
 import { login } from "../../../store/slices/authSlice";
+import { email, password } from "../../../constants/validation";
 interface FormLogin {
   email: string;
   password: string;
@@ -29,14 +30,8 @@ export default function Loginpage() {
   const router = useRouter();
   // validation
   const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    password: Yup.string()
-      .required("Password is required")
-      .matches(/[A-Z]/, "Must contain at least one uppercase letter")
-      .matches(/[a-z]/, "Must contain at least one lowercase letter")
-      .matches(/\d/, "Must contain at least one number"),
+    email,
+    password,
   });
   // inital values
   const initialValues: FormLogin = {
@@ -50,22 +45,32 @@ export default function Loginpage() {
       { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
     ) => {
       setSubmitting(true);
-      const response = await loginAuth(values);
+      const response: { success: boolean; message: string; token?: string; first_name?: string; last_name?: string; role?: string } = await loginAuth(values);
 
       if (response.success && response.token) {
-        dispatch(login({ user: response.first_name, token: response.token }));
-        console.log(response.first_name);
-        console.log(response.token);
-        toast.success("Login successful!");
+        const userData = {
+          first_name: response.first_name || "",
+          last_name: response.last_name || "",
+          role: response.role || "",
+        };
+
+        dispatch(login({ user: userData, token: response.token }));
+
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        toast.success(response.message);
         setTimeout(() => {
-          router.push("/auth/register");
+          router.push("/dashboard/home");
         }, 2000);
       } else {
         toast.error(response.message);
       }
     },
     [router, dispatch]
-  );
+);
+
+  
   return (
     <Box
       sx={{
@@ -76,10 +81,9 @@ export default function Loginpage() {
         justifyContent: "center",
         px: 2,
       }}
-
     >
       <ToastContainer />
-      <Grid sx={{width: "100%", maxWidth: "500px",mx: "auto", pl: 3}}>
+      <Grid sx={{ width: "100%", maxWidth: "500px", mx: "auto", pl: 3 }}>
         <Typography
           component="p"
           sx={{ color: "#090937", opacity: 0.6, borderRadius: 600 }}
