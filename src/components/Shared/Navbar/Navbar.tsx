@@ -105,7 +105,7 @@ export default function Navbar() {
       <div className="mx-auto max-w-screen px-8 py-5 flex items-center justify-between">
         {/* Logo & User */}
         <div className="flex items-center gap-3">
-          <a
+          <Link
             className="text-lg text-headtext font-bold flex items-center gap-2"
             href="#"
           >
@@ -113,7 +113,7 @@ export default function Navbar() {
               {user?.first_name[0]?.toLocaleUpperCase()}
             </div>
             {user && <p>Welcome {user.first_name.toLocaleUpperCase()}</p>}
-          </a>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
@@ -139,17 +139,17 @@ export default function Navbar() {
 
         {/* Icons */}
         <div className="hidden md:flex items-center text-lg font-medium gap-4 text-nexttext">
-          <a href="#" className="relative flex items-center">
+          <Link href="#" className="relative flex items-center">
             <FontAwesomeIcon icon={faUser} className="text-xl" />
-          </a>
-          <a href="#" className="relative flex items-center">
+          </Link>
+          <Link href="#" className="relative flex items-center">
             <span className="before:content-['|'] before:mr-3 before:text-neutral-300 "></span>
             <FontAwesomeIcon icon={faBagShopping} className="text-xl" />
-          </a>
-          <a href="#" className="relative flex items-center">
+          </Link>
+          <Link href="#" className="relative flex items-center">
             <span className="before:content-['|'] before:mr-3 before:text-neutral-300 "></span>
             <FontAwesomeIcon icon={faHeart} className="text-xl" />
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -200,15 +200,15 @@ export default function Navbar() {
 
         {/* Icons in Sidebar */}
         <div className="flex justify-between my-4 items-center gap-4 text-nexttext">
-          <a href="#">
+          <Link href="#">
             <FontAwesomeIcon icon={faUser} className="text-xl" />
-          </a>
-          <a href="#">
+          </Link>
+          <Link href="#">
             <FontAwesomeIcon icon={faBagShopping} className="text-xl" />
-          </a>
-          <a href="#">
+          </Link>
+          <Link href="#">
             <FontAwesomeIcon icon={faHeart} className="text-xl" />
-          </a>
+          </Link>
         </div>
       </div>
     </header>
